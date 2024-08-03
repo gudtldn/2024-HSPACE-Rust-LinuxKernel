@@ -14,22 +14,19 @@ pub fn evaluate(inputs: &[CalculatorInput]) -> Option<i32> {
         if let CalculatorInput::Value(val) = input {
             stack.push(*val);
         } else if stack.len() >= 2 {
+            let length = stack.len();
             match input {
                 CalculatorInput::Add => {
-                    let length = stack.len();
-                    stack[length - 2] += stack.pop().unwrap();
+                    stack[length - 2] += stack.pop()?;
                 }
                 CalculatorInput::Subtract => {
-                    let length = stack.len();
-                    stack[length - 2] -= stack.pop().unwrap();
+                    stack[length - 2] -= stack.pop()?;
                 }
                 CalculatorInput::Multiply => {
-                    let length = stack.len();
-                    stack[length - 2] *= stack.pop().unwrap();
+                    stack[length - 2] *= stack.pop()?;
                 }
                 CalculatorInput::Divide => {
-                    let length = stack.len();
-                    stack[length - 2] /= stack.pop().unwrap();
+                    stack[length - 2] /= stack.pop()?;
                 }
                 _ => (),
             }
@@ -38,11 +35,7 @@ pub fn evaluate(inputs: &[CalculatorInput]) -> Option<i32> {
         }
     }
 
-    if stack.len() == 1 {
-        Some(stack[0])
-    } else {
-        None
-    }
+    stack.pop()
 }
 
 #[cfg(test)]

@@ -19,9 +19,9 @@ impl Player {
 
     pub fn cast_spell(&mut self, mana_cost: u32) -> u32 {
         match self.mana {
-            Some(mana) => {
+            Some(ref mut mana) => {
                 if let Some(val) = mana.checked_sub(mana_cost) {
-                    self.mana = Some(val);
+                    *mana = val;
                     return mana_cost * 2;
                 }
             }

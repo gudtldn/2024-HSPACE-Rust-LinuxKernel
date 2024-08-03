@@ -1,6 +1,6 @@
-fn get_mine_count(minefield: &[&str], x: usize, y: usize) -> String {
+fn get_mine_count(minefield: &[&str], x: usize, y: usize) -> char {
     if minefield[y].chars().nth(x).unwrap() == '*' {
-        return "*".to_string();
+        return '*';
     }
 
     let mut count = 0;
@@ -13,6 +13,8 @@ fn get_mine_count(minefield: &[&str], x: usize, y: usize) -> String {
                 continue;
             }
 
+            // TODO: max 조건 추가
+            
             if let Some(row) = minefield.get(new_y as usize) {
                 if let Some(cell) = row.chars().nth(new_x as usize) {
                     if cell == '*' {
@@ -24,9 +26,9 @@ fn get_mine_count(minefield: &[&str], x: usize, y: usize) -> String {
     }
 
     if count == 0 {
-        " ".to_string()
+        ' '
     } else {
-        count.to_string()
+        char::from_u32(count).unwrap()
     }
 }
 
@@ -36,7 +38,7 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
     for y in 0..minefield.len() {
         let mut temp = String::new();
         for x in 0..minefield.first().unwrap_or(&"").len() {
-            temp += &get_mine_count(minefield, x, y)
+            temp.push(get_mine_count(minefield, x, y));
         }
         field.push(temp);
     }
