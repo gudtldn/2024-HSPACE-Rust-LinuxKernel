@@ -28,7 +28,7 @@ fn get_mine_count(minefield: &[&str], x: usize, y: usize) -> char {
     if count == 0 {
         ' '
     } else {
-        char::from_u32(count).unwrap()
+        char::from_digit(count, 10).unwrap()
     }
 }
 

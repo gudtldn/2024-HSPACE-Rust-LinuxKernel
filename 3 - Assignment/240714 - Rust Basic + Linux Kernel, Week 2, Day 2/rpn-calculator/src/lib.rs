@@ -35,7 +35,11 @@ pub fn evaluate(inputs: &[CalculatorInput]) -> Option<i32> {
         }
     }
 
-    stack.pop()
+    if stack.len() == 1 {
+        stack.pop()
+    } else {
+        None
+    }
 }
 
 #[cfg(test)]
