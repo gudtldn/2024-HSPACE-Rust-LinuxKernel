@@ -7,6 +7,7 @@ where
     F: Fn(T) -> T,
 {
     let mut cache = HashMap::new();
+
     move |x| match cache.get(&x) {
         Some(value) => (*value, true),
         None => {

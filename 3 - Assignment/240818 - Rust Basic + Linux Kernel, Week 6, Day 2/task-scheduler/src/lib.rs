@@ -30,14 +30,18 @@ impl TaskScheduler {
     // Execute tasks sequentially and stop if any task returns "fail".
     pub fn execute_tasks(&mut self) -> Vec<String> {
         let mut result = vec![];
+
         for task in self.tasks.iter_mut() {
             let task_result = task();
+
             if task_result == "fail" {
                 result.push(task_result);
                 break;
             }
+
             result.push(task_result);
         }
+
         result
     }
 
