@@ -13,7 +13,10 @@ pub struct TaskScheduler {
 impl TaskScheduler {
     // Create a new TaskScheduler with shared state initialized to 0.
     pub fn new() -> Self {
-        todo!()
+        Self {
+            tasks: Vec::new(),
+            shared_state: Rc::new(RefCell::new(0)),
+        }
     }
 
     // Register a stateful task.
@@ -21,22 +24,32 @@ impl TaskScheduler {
     where
         F: FnMut() -> String + 'static,
     {
-        todo!()
+        self.tasks.push(Box::new(_task));
     }
 
     // Execute tasks sequentially and stop if any task returns "fail".
     pub fn execute_tasks(&mut self) -> Vec<String> {
-        todo!()
+        let mut result = vec![];
+        for task in self.tasks.iter_mut() {
+            let task_result = task();
+            if task_result == "fail" {
+                result.push(task_result);
+                break;
+            }
+            result.push(task_result);
+        }
+        result
     }
 
     // Restart the scheduler by resetting shared state and re-running all tasks.
     pub fn restart(&mut self) -> Vec<String> {
-        todo!()
+        *self.shared_state.clone().borrow_mut() = 0;
+        self.execute_tasks()
     }
 
     // Get the shared state value.
     pub fn get_state(&self) -> i32 {
-        todo!()
+        *self.shared_state.clone().borrow()
     }
 }
 
