@@ -1,4 +1,21 @@
-// TODO: Implement a function "check_cache" that takes a closure and returns a new closure.
+use std::collections::HashMap;
+
+#[allow(dead_code)]
+fn check_cache<T, F>(closure: F) -> impl FnMut(T) -> (T, bool)
+where
+    T: std::ops::Mul + std::hash::Hash + std::cmp::Eq + Copy,
+    F: Fn(T) -> T,
+{
+    let mut cache = HashMap::new();
+    move |x| match cache.get(&x) {
+        Some(value) => (*value, true),
+        None => {
+            let result = closure(x);
+            cache.insert(x, result);
+            (result, false)
+        }
+    }
+}
 
 #[cfg(test)]
 mod tests {
