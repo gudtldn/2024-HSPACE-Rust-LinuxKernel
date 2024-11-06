@@ -3,7 +3,17 @@ use std::collections::HashMap;
 #[macro_export]
 macro_rules! hashmap {
     () => {
-        unimplemented!()
+        crate::HashMap::new()
+    };
+    ($( $key:expr => $value:expr ),+ $(,)?) => {
+        {
+            let mut map = hashmap!();
+            $(
+                map.insert($key, $value);
+            )*
+
+            map
+        }
     };
 }
 
